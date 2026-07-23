@@ -9,7 +9,7 @@
 
 
 package com.groupmeeting;
-import com.groupmeeting.view.LoginView;
+import com.groupmeeting.view.auth.LoginView;
 import javax.swing.*;
 
 public class Main {

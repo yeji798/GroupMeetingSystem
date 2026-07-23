@@ -1,0 +1,17 @@
+# Java build output
+*.class
+bin/
+out/
+build/
+target/
+
+# IDE metadata
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
