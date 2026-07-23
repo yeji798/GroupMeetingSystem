@@ -142,6 +142,24 @@ public class MemberRepository {
     }
 
     /**
+     * 회원 정보를 수정합니다. 아이디(id)가 같은 회원을 찾아서 그 회원의 정보를 통째로 교체합니다.
+     * ("마이페이지 - 회원 정보 수정" 화면에서 사용)
+     *
+     * @return 수정에 성공하면 true, 아이디를 찾지 못했다면 false
+     */
+    public boolean updateMember(Member updated) {
+        List<Member> members = loadAll();
+        for (int i = 0; i < members.size(); i++) {
+            if (members.get(i).getId().equals(updated.getId())) {
+                members.set(i, updated);
+                saveAll(members);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 주어진 아이디가 이미 사용 중인지 확인합니다. (회원가입 시 중복 확인용)
      */
     public boolean isIdDuplicate(String id) {

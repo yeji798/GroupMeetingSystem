@@ -76,6 +76,25 @@ public class TimePickerPanel extends JPanel {
         ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField().setEditable(false);
     }
 
+    /**
+     * 24시간제 시(hour24, 0~23)와 분(minute)을 받아서 오전/오후 버튼과 시:분 스피너에 반영합니다.
+     * -> 기존에 저장해둔 시간을 "수정" 화면에 불러와 보여줄 때 사용합니다. (get24HourTime()의 반대 동작)
+     */
+    public void setTime24(int hour24, int minute) {
+        boolean isAM = hour24 < 12;
+
+        // 24시간제 -> 12시간제 변환: 0시는 오전 12시, 13시는 오후 1시가 되도록 계산
+        int hour12 = hour24 % 12;
+        if (hour12 == 0) {
+            hour12 = 12;
+        }
+
+        amButton.setSelected(isAM);
+        pmButton.setSelected(!isAM);
+        hourSpinner.setValue(hour12);
+        minuteSpinner.setValue(minute);
+    }
+
     /** 오전 12시=00시, 오후 12시=12시 규칙에 따라 24시간제 "HH:mm" 문자열로 변환합니다. */
     public String get24HourTime() {
         int hour12 = (Integer) hourSpinner.getValue();

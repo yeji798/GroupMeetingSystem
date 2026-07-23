@@ -1,3 +1,9 @@
+/**
+ * [회원 가입 창]
+ * 
+ * 
+ */
+
 package com.groupmeeting.view;
 
 import com.groupmeeting.model.Member;
@@ -13,9 +19,11 @@ import java.util.regex.Pattern;
  * 입력 항목: 사용자 이름, 닉네임, 아이디, 비밀번호, 비밀번호 확인, 이메일
  * 가입 완료 시 MemberRepository를 통해 CSV 파일에 저장됩니다.
  */
+
+
 public class SignupDialog extends JDialog {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository; //회원정보관리하는 객체 생성
 
     // 이메일 형식 검증용 정규식 (간단한 형식 체크)
     private static final Pattern EMAIL_PATTERN =
@@ -33,9 +41,10 @@ public class SignupDialog extends JDialog {
     // (LoginView에서 로그인 아이디 자동입력을 위해 사용)
     private String registeredId = null;
 
-    public SignupDialog(JFrame owner, MemberRepository memberRepository) {
+    public SignupDialog(JFrame owner, MemberRepository memberRepository) { // 회원가입 창을 생성하는 생성자
         super(owner, "회원가입", true); // true -> 모달 다이얼로그
-        this.memberRepository = memberRepository;
+        // *모달 다이얼로그 : 회원가입 창을 닫기 전까지 부모 창을 사용할 수 없도록 하는 창이다.
+        this.memberRepository = memberRepository; // 가져온 회원정보 저장 
         initDialog();
         initComponents();
     }
@@ -48,20 +57,21 @@ public class SignupDialog extends JDialog {
         getContentPane().setBackground(Theme.BACKGROUND);
     }
 
+
     /** 다이얼로그 내부 컴포넌트를 배치합니다. */
     private void initComponents() {
-        JPanel root = new JPanel();
+        JPanel root = new JPanel(); //패널 생성 
         root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
         root.setBackground(Theme.BACKGROUND);
         root.setBorder(BorderFactory.createEmptyBorder(24, 32, 24, 32));
 
-        JLabel titleLabel = new JLabel("회원가입");
+        JLabel titleLabel = new JLabel("회원가입"); 
         titleLabel.setFont(Theme.FONT_SUBTITLE);
         titleLabel.setForeground(Theme.PRIMARY_GREEN_DARK);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         root.add(titleLabel);
-        root.add(Box.createVerticalStrut(20));
+        root.add(Box.createVerticalStrut(20)); //세로 공간 만들어줌
 
         // 각 입력 항목을 "라벨 + 입력창" 형태로 만들어 순서대로 추가
         nameField = addLabeledField(root, "사용자 이름");

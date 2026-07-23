@@ -142,4 +142,15 @@ public class CalendarPanel extends JPanel {
     public LocalDate getSelectedDate() {
         return selectedDate;
     }
+
+    /**
+     * 특정 날짜를 화면에 미리 선택된 상태로 표시합니다. (수정 화면에서 기존 값을 불러올 때 사용)
+     * -> 달력을 그 날짜가 속한 달로 이동시키고, 해당 날짜를 선택된 것으로 표시합니다.
+     */
+    public void selectDate(LocalDate date) {
+        if (date == null) return;
+        this.currentYearMonth = YearMonth.from(date); // 그 날짜가 속한 연/월로 달력을 이동
+        this.selectedDate = date;                     // 선택 상태로 표시
+        renderDays();                                  // 화면을 다시 그려서 반영
+    }
 }

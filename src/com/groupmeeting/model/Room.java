@@ -11,9 +11,6 @@ import java.util.List;
  */
 public class Room {
 
-    /** 방 하나에 참여할 수 있는 최대 인원 수 (디자인 목업 기준 8명) */
-    public static final int MAX_MEMBERS = 8;
-
     /** 카테고리 상수: 단체 약속 */
     public static final String CATEGORY_PROMISE = "단체 약속";
     /** 카테고리 상수: 단체 여행 */
@@ -49,11 +46,6 @@ public class Room {
         return memberIds.size();
     }
 
-    /** 방 정원이 가득 찼는지 확인합니다. */
-    public boolean isFull() {
-        return memberIds.size() >= MAX_MEMBERS;
-    }
-
     /** 특정 회원이 이미 이 방에 참여 중인지 확인합니다. */
     public boolean hasMember(String memberId) {
         return memberIds.contains(memberId);
@@ -65,7 +57,7 @@ public class Room {
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
-                ", members=" + memberIds.size() + "/" + MAX_MEMBERS +
+                ", members=" + memberIds.size() +
                 '}';
     }
 }

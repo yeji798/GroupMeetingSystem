@@ -2,6 +2,7 @@ package com.groupmeeting.view;
 
 import com.groupmeeting.model.Member;
 import com.groupmeeting.model.Room;
+import com.groupmeeting.util.MemberRepository;
 import com.groupmeeting.util.RoomRepository;
 
 import javax.swing.*;
@@ -60,8 +61,8 @@ public class MainView extends JFrame {
         topBar.setBackground(Theme.BACKGROUND);
         topBar.setBorder(BorderFactory.createEmptyBorder(16, 18, 8, 18));
 
-        JLabel searchIcon = new JLabel("\uD83D\uDD0D"); // 🔍
-        searchIcon.setFont(new Font("맑은 고딕", Font.PLAIN, 20));
+        // 상단 왼쪽 로고 (/image/logo.png). 클릭하면 기존처럼 검색창을 여닫을 수 있습니다.
+        JLabel searchIcon = new JLabel(loadLogoIcon(28));
         searchIcon.setCursor(new Cursor(Cursor.HAND_CURSOR));
         searchIcon.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -70,7 +71,7 @@ public class MainView extends JFrame {
             }
         });
 
-        JLabel titleLabel = new JLabel("모임.", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("모이락!", SwingConstants.CENTER);
         titleLabel.setFont(Theme.FONT_TITLE);
         titleLabel.setForeground(Theme.PRIMARY_GREEN_DARK);
 
@@ -131,7 +132,7 @@ public class MainView extends JFrame {
             private void doSearch() { refreshRoomList(searchField.getText().trim()); }
         });
 
-        // 헤더: "방 리스트" + 우측 "+" 단축 생성 버튼
+        // 헤더: "방 리스트" 제목
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(Theme.BACKGROUND);
         headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 4, 10, 4));
@@ -140,18 +141,7 @@ public class MainView extends JFrame {
         listTitle.setFont(Theme.FONT_SUBTITLE);
         listTitle.setForeground(Theme.TEXT_DARK);
 
-        JButton quickAddButton = new JButton("+");
-        quickAddButton.setFont(new Font("맑은 고딕", Font.BOLD, 16));
-        quickAddButton.setForeground(Color.WHITE);
-        quickAddButton.setBackground(Theme.PRIMARY_GREEN);
-        quickAddButton.setFocusPainted(false);
-        quickAddButton.setBorderPainted(false);
-        quickAddButton.setPreferredSize(new Dimension(30, 30));
-        quickAddButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        quickAddButton.addActionListener(e -> handleCreateRoom());
-
         headerPanel.add(listTitle, BorderLayout.WEST);
-        headerPanel.add(quickAddButton, BorderLayout.EAST);
 
         JPanel topOfCenter = new JPanel();
         topOfCenter.setLayout(new BoxLayout(topOfCenter, BoxLayout.Y_AXIS));
@@ -240,13 +230,22 @@ public class MainView extends JFrame {
         nameLabel.setFont(Theme.FONT_NORMAL);
         nameLabel.setForeground(Theme.TEXT_DARK);
 
-        JLabel countLabel = new JLabel(room.getMemberCount() + "/" + Room.MAX_MEMBERS);
+        JLabel countLabel = new JLabel(room.getMemberCount() + "명");
         countLabel.setFont(Theme.FONT_NORMAL);
         countLabel.setForeground(new Color(0x99, 0x99, 0x99));
+
+        // 이 방이 "단체 약속"인지 "단체 여행"인지 작게 표시하는 태그
+        JLabel categoryTag = new JLabel(room.getCategory());
+        categoryTag.setOpaque(true);
+        categoryTag.setBackground(Theme.ACCENT_GREEN);
+        categoryTag.setForeground(Theme.PRIMARY_GREEN_DARK);
+        categoryTag.setFont(new Font("맑은 고딕", Font.PLAIN, 10));
+        categoryTag.setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 6));
 
         leftPanel.add(avatar);
         leftPanel.add(nameLabel);
         leftPanel.add(countLabel);
+        leftPanel.add(categoryTag);
 
         if (newlyCreatedCodes.contains(room.getCode())) {
             JLabel newTag = new JLabel("신규");
@@ -304,14 +303,10 @@ public class MainView extends JFrame {
 
     // ---------------- 이벤트 핸들러 ----------------
 
+    /** "마이페이지" 클릭: 회원 정보 수정 화면(ProfileEditDialog)을 엽니다. */
     private void handleOpenProfile() {
-        String info = "이름: " + loginMember.getName() + "\n"
-                + "닉네임: " + loginMember.getNickname() + "\n"
-                + "아이디: " + loginMember.getId() + "\n"
-                + "이메일: " + loginMember.getEmail() + "\n\n"
-                + "(회원 정보 수정 기능은 추후 지원될 예정입니다.)";
-
-        JOptionPane.showMessageDialog(this, info, "마이페이지", JOptionPane.INFORMATION_MESSAGE);
+        ProfileEditDialog dialog = new ProfileEditDialog(this, new MemberRepository(), loginMember);
+        dialog.setVisible(true);
     }
 
     /** "방 만들기" 클릭: CreateRoomDialog(이름/코드 입력 -> 카테고리 선택)를 열고, 성공 시 목록을 새로고침합니다. */
@@ -368,5 +363,12 @@ public class MainView extends JFrame {
     public void refreshAndShow() {
         refreshRoomList(searchField.getText().trim());
         setVisible(true);
+    }
+
+    /** "/image/logo.png" 이미지를 불러와 size x size 크기로 축소한 아이콘을 반환합니다. */
+    private ImageIcon loadLogoIcon(int size) {
+        ImageIcon original = new ImageIcon(getClass().getResource("/image/logo.png"));
+        Image scaled = original.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaled);
     }
 }
