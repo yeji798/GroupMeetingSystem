@@ -30,11 +30,11 @@ public class Member {
     public String getEmail() { return email; }
 
     // ---------------- Setter ----------------
-    // 추후 "회원 정보 수정" 기능 구현 시 사용할 수 있도록 setter도 함께 제공합니다.
     public void setName(String name) { this.name = name; }
     public void setNickname(String nickname) { this.nickname = nickname; }
     public void setPassword(String password) { this.password = password; }
     public void setEmail(String email) { this.email = email; }
+
 
     @Override
     public String toString() {

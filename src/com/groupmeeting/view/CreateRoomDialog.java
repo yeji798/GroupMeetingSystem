@@ -3,6 +3,7 @@ package com.groupmeeting.view;
 import com.groupmeeting.model.Room;
 import com.groupmeeting.util.AvailabilityRepository;
 import com.groupmeeting.util.RoomRepository;
+import com.groupmeeting.util.TravelDateRepository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -155,11 +156,16 @@ public class CreateRoomDialog extends JDialog {
                     "'" + roomName + "' 방이 생성되었습니다!",
                     "생성 완료", JOptionPane.INFORMATION_MESSAGE);
 
-            // "단체 약속" 방이면, 방장이 바로 자신의 가능 날짜/시간/장소를 입력할 수 있도록 안내합니다.
+            // "단체 약속" 방이면 가능 날짜/시간/장소를, "단체 여행" 방이면 여행 시작~종료 날짜를
+            // 방장이 곧바로 입력할 수 있도록 이어서 화면을 띄워줍니다.
             if (Room.CATEGORY_PROMISE.equals(category)) {
                 ScheduleInputDialog scheduleDialog =
                         new ScheduleInputDialog(this, new AvailabilityRepository(), room, ownerId);
                 scheduleDialog.setVisible(true);
+            } else if (Room.CATEGORY_TRAVEL.equals(category)) {
+                TravelDateInputDialog travelDialog =
+                        new TravelDateInputDialog(this, new TravelDateRepository(), room, ownerId);
+                travelDialog.setVisible(true);
             }
 
             dispose();

@@ -29,6 +29,7 @@ public class ScheduleInputDialog extends JDialog {
     private TimePickerPanel endTimePanel;
     private JTextField placeField;
     private JPanel entriesPanel;
+    private JScrollPane entriesScrollPane; // entriesPanel을 감싸는 가로 스크롤 영역
 
     public ScheduleInputDialog(Window owner, AvailabilityRepository repository, Room room, String memberId) {
         super(owner, "날짜 및 시간 선택", ModalityType.APPLICATION_MODAL);
@@ -96,6 +97,11 @@ public class ScheduleInputDialog extends JDialog {
         submitButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
         submitButton.addActionListener(e -> handleSubmit());
 
+        // 시간리스트를 먼저 채운 뒤, 글자가 길어도 잘리지 않도록 가로 스크롤 영역으로 감쌉니다.
+        renderEntries();
+        entriesScrollPane = Theme.wrapHorizontalScrollable(entriesPanel, Theme.STANDARD_CONTENT_WIDTH);
+        entriesScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT); // 이 화면의 다른 요소들과 같은 왼쪽 정렬 유지
+
         root.add(titleLabel);
         root.add(Box.createVerticalStrut(18));
         root.add(dateLabel);
@@ -114,7 +120,7 @@ public class ScheduleInputDialog extends JDialog {
         root.add(Box.createVerticalStrut(16));
         root.add(listLabel);
         root.add(Box.createVerticalStrut(6));
-        root.add(entriesPanel);
+        root.add(entriesScrollPane);
         root.add(Box.createVerticalStrut(20));
         root.add(submitButton);
 
@@ -124,8 +130,6 @@ public class ScheduleInputDialog extends JDialog {
         scrollPane.getViewport().setBackground(Theme.BACKGROUND);
 
         setContentPane(scrollPane);
-
-        renderEntries();
     }
 
     private JLabel sectionLabel(String text) {
@@ -174,6 +178,14 @@ public class ScheduleInputDialog extends JDialog {
 
         entriesPanel.revalidate();
         entriesPanel.repaint();
+
+        // 이미 가로 스크롤 영역으로 감싼 뒤(=항목을 추가/삭제해서 다시 그리는 경우)라면,
+        // 새로 바뀐 목록 높이에 맞춰 스크롤 영역 크기도 다시 맞추고 창을 다시 배치합니다.
+        if (entriesScrollPane != null) {
+            Theme.resyncScrollableHeight(entriesScrollPane, entriesPanel);
+            revalidate();
+            repaint();
+        }
     }
 
     private JPanel createEntryRow(int index) {

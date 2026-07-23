@@ -1,3 +1,32 @@
+
+/**
+ * 프로그램 실행 시 가장 먼저 보여지는 "로그인 화면" 입니다.
+
+
+    <필드>
+    1. 회원정보 CSV 파일 다루는 저장소 객체 (MemberRepository)
+    2. 아이디 / 비번
+
+    <생성자>
+    : 창을 생성하고 로고, 아이디&비번 입력칸, 로그인&회원가입 버튼 표시 함수
+
+    <중요 메소드>
+    1. 로그인 버튼 눌렀을 시 (handleLogin)
+    - 아이디&비번 입력창에서 데이터 가져옴 
+    - 하나라도 비어있다면 중단
+    - 이미 저장되어있는 회원 정보와 일치하는지 확인
+    - 있다면 로그인 성공 -> 현재 회원정보를 메인화면에 보내며 메인화면 open, 로그인창 close
+    + Member 클래스로 회원정보
+    + MainView 클래스로 메인화면 표시
+
+    2. 회원가입 버튼 눌렀을 시 (handleOpenSignup)
+    - 회원가입 창 생성 (SignupDialog 클래스로)
+    - 성공적으로 완료되었다면 아이디를 가져와서 자동 로그인
+
+ */
+
+
+
 package com.groupmeeting.view;
 
 import com.groupmeeting.model.Member;
@@ -5,16 +34,6 @@ import com.groupmeeting.util.MemberRepository;
 
 import javax.swing.*;
 import java.awt.*;
-
-/**
- * 프로그램 실행 시 가장 먼저 보여지는 "로그인 화면" 입니다.
- *
- * 구성 요소:
- *  - 중앙 상단: "단체 모임 관리 시스템" 타이틀
- *  - 아이디 입력칸, 비밀번호 입력칸
- *  - "로그인" 버튼
- *  - "회원가입" 버튼 (하단, 회원가입 다이얼로그 오픈)
- */
 
 
 public class LoginView extends JFrame { // Swing에서 제공하는 창 클래스
@@ -183,17 +202,17 @@ public class LoginView extends JFrame { // Swing에서 제공하는 창 클래�
 
     /** ---------------------------------------------------
      * [회원가입 버튼]
-     *
      * */
     private void handleOpenSignup() {
         SignupDialog signupDialog = new SignupDialog(this, memberRepository);
-        signupDialog.setVisible(true);
+        //회원가입 창 객체를 생성하고, 현재 창과 회원 정보를 관리하는 객체를 전달한다.
+        signupDialog.setVisible(true); //회원가입 창을 표시
 
         // 회원가입이 성공적으로 완료되었다면, 편의를 위해 방금 가입한 아이디를 자동 입력해줍니다.
-        String newlyRegisteredId = signupDialog.getRegisteredId();
-        if (newlyRegisteredId != null) {
-            idField.setText(newlyRegisteredId);
-            pwField.requestFocus();
+        String newlyRegisteredId = signupDialog.getRegisteredId(); //회원가입이 완료되면 등록된 아이디를 가져온다.
+        if (newlyRegisteredId != null) { //회원가입이 정상적으로 완료되었는지 확인한다.
+            idField.setText(newlyRegisteredId); //로그인 화면의 아이디 입력창에 가입한 아이디를 자동으로 입력한다.
+            pwField.requestFocus(); //  비밀번호 입력창으로 커서를 이동시켜 바로 로그인할 수 있도록 한다.
         }
     }
 }

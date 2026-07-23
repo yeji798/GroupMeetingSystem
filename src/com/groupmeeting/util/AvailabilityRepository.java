@@ -151,4 +151,46 @@ public class AvailabilityRepository {
         }
         return result;
     }
+
+    /**
+     * 특정 방(roomCode)에서, 특정 회원(memberId) 한 명이 지금까지 제출한 가능 시간 항목만 골라서 반환합니다.
+     * -> "자신의 일정 수정" 화면(MyScheduleEditDialog)을 열 때, 예전에 저장해둔 내용을 화면에 미리 채워 넣는 용도로 사용합니다.
+     */
+    public List<AvailabilityEntry> getForRoomAndMember(String roomCode, String memberId) {
+        List<AvailabilityEntry> result = new ArrayList<>();
+        for (AvailabilityEntry entry : getForRoom(roomCode)) {
+            if (entry.getMemberId().equals(memberId)) {
+                result.add(entry);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 특정 회원(memberId)이 특정 방(roomCode)에 대해 예전에 저장해두었던 항목들을 전부 지우고,
+     * 새로 넘겨받은 newEntries 목록으로 통째로 교체합니다. ("자신의 일정 수정" 화면의 최종 "저장" 버튼에서 사용)
+     *
+     * -> appendEntries()는 무조건 뒤에 이어붙이기만 하지만(추가), 이 메서드는 "그 사람의 예전 기록은
+     *    지우고 지금 화면에 있는 목록으로 덮어쓰기" 하는 것이 다른 점입니다.
+     */
+    public boolean replaceForMember(String roomCode, String memberId, List<AvailabilityEntry> newEntries) {
+        List<AvailabilityEntry> all = loadAll(); // 1) CSV에 저장된 전체 데이터를 불러온다.
+
+        // 2) 전체 데이터 중에서, "이 방 + 이 회원"에 해당하지 않는 것들만 남긴다.
+        //    (즉, 이 회원의 예전 기록과 다른 방/다른 회원의 기록을 구분해서, 다른 회원 기록은 그대로 보존한다.)
+        List<AvailabilityEntry> kept = new ArrayList<>();
+        for (AvailabilityEntry entry : all) {
+            boolean isThisMemberAndRoom = entry.getRoomCode().equals(roomCode) && entry.getMemberId().equals(memberId);
+            if (!isThisMemberAndRoom) {
+                kept.add(entry);
+            }
+        }
+
+        // 3) 남겨둔 다른 기록들 뒤에, 화면에서 새로 정리한 목록을 이어 붙인다.
+        kept.addAll(newEntries);
+
+        // 4) 파일 전체를 새 목록으로 덮어쓴다.
+        saveAll(kept);
+        return true;
+    }
 }

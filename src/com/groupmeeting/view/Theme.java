@@ -60,4 +60,79 @@ public class Theme {
                 BorderFactory.createEmptyBorder(6, 8, 6, 8)
         ));
     }
+
+    /**
+     * BoxLayout(Y_AXIS)로 세로 배치된 화면에서, 넘겨받은 컴포넌트들의 가로 폭을 전부
+     * 똑같이(그 중 가장 넓은 컴포넌트의 폭으로) 맞추고 화면 가운데로 정렬합니다.
+     *
+     * -> BoxLayout 안에서 어떤 줄은 왼쪽 정렬, 어떤 줄은 화면 전체 폭으로 늘어나는 식으로
+     *    제각각이면 화면이 한쪽으로 쏠려 보이는 문제가 생깁니다. 이 메서드로 여러 줄의
+     *    폭을 통일하고 다같이 가운데 정렬하면 그 문제를 확실하게 막을 수 있습니다.
+     */
+    public static void alignAsCenteredColumn(JComponent... components) {
+        int maxWidth = 0;
+        for (JComponent c : components) {
+            maxWidth = Math.max(maxWidth, c.getPreferredSize().width);
+        }
+        for (JComponent c : components) {
+            int height = c.getPreferredSize().height;
+            Dimension fixedSize = new Dimension(maxWidth, height);
+            c.setPreferredSize(fixedSize);
+            c.setMaximumSize(fixedSize);
+            c.setAlignmentX(Component.CENTER_ALIGNMENT);
+        }
+    }
+
+    /**
+     * 대부분의 화면(다이얼로그)에서 좌우 여백을 뺀 뒤 실제로 내용이 들어갈 수 있는
+     * 표준 가로 폭입니다. (창 폭 432px - 좌우 여백 20px씩 - 세로 스크롤바 자리)
+     * 목록(리스트) 화면의 가로 스크롤 영역 폭을 정할 때 기준으로 사용합니다.
+     */
+    public static final int STANDARD_CONTENT_WIDTH = 370;
+
+    /**
+     * 이름이나 날짜처럼 길이가 들쭉날쭉한 텍스트가 들어가는 목록 패널(listPanel)을
+     * "가로 스크롤이 가능한" 영역으로 감쌉니다.
+     *
+     * -> 목록 안의 글자가 화면 폭보다 길면 예전에는 그냥 잘려서 안 보였는데, 이 메서드로 감싸면
+     *    옆으로 스크롤해서 잘린 내용을 전부 볼 수 있게 됩니다. 세로 스크롤은 이 화면을 감싸고
+     *    있는 바깥 스크롤 영역이 이미 담당하고 있으므로, 여기서는 가로 스크롤만 켭니다.
+     *    (목록의 세로 높이는 내용물 그대로 사용하고, 가로 폭만 visibleWidth로 고정합니다)
+     */
+    public static JScrollPane wrapHorizontalScrollable(JComponent listPanel, int visibleWidth) {
+        JScrollPane scrollPane = new JScrollPane(listPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getViewport().setBackground(BACKGROUND);
+        scrollPane.setOpaque(false);
+        scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+
+        // 목록 패널이 지금까지 쌓은 내용물의 "원래 필요한 세로 높이"는 그대로 유지하고,
+        // 가로 폭만 visibleWidth로 고정합니다. (내용이 더 넓으면 안에서 가로 스크롤이 생김)
+        int neededHeight = listPanel.getPreferredSize().height;
+        Dimension fixedSize = new Dimension(visibleWidth, neededHeight);
+        scrollPane.setPreferredSize(fixedSize);
+        scrollPane.setMaximumSize(fixedSize);
+        scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        return scrollPane;
+    }
+
+    /**
+     * wrapHorizontalScrollable()로 감싸둔 스크롤 영역의 세로 높이를, 목록 패널(listPanel)의
+     * "지금" 필요한 높이에 맞춰 다시 계산해줍니다.
+     *
+     * -> 목록에 항목을 추가/삭제해서 화면이 이미 열려있는 도중에 내용의 세로 길이가 바뀌는
+     *    경우(예: "추가" 버튼으로 새 항목을 넣을 때), 스크롤 영역의 높이가 처음 만들었을 때
+     *    값으로 고정된 채로 있으면 새로 추가된 내용이 화면에 안 보일 수 있습니다.
+     *    항목을 추가/삭제한 뒤에는 항상 이 메서드를 호출해서 높이를 새로 맞춰줘야 합니다.
+     */
+    public static void resyncScrollableHeight(JScrollPane scrollPane, JComponent listPanel) {
+        int width = scrollPane.getPreferredSize().width; // 가로 폭은 그대로 유지
+        int height = listPanel.getPreferredSize().height;
+        Dimension size = new Dimension(width, height);
+        scrollPane.setPreferredSize(size);
+        scrollPane.setMaximumSize(size);
+    }
 }

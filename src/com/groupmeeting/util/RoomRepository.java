@@ -146,10 +146,10 @@ public class RoomRepository {
     }
 
     /**
-     * 특정 회원을 주어진 코드의 방에 참여시킵니다.
+     * 특정 회원을 주어진 코드의 방에 참여시킵니다. (인원 제한이 없으므로 방이 존재하고
+     * 아직 참여 중이 아니라면 항상 성공합니다.)
      *
-     * @return 성공 시 참여된 Room 객체, 실패 시 null
-     *         (실패 사유는 room이 없거나, 이미 참여 중이거나, 정원이 가득 찬 경우)
+     * @return 성공 시 참여된 Room 객체, 실패 시 null (방이 존재하지 않는 경우)
      */
     public Room joinRoom(String code, String memberId) {
         List<Room> rooms = loadAll();
@@ -167,9 +167,6 @@ public class RoomRepository {
         }
         if (target.hasMember(memberId)) {
             return target; // 이미 참여 중인 경우 그대로 반환
-        }
-        if (target.isFull()) {
-            return null; // 정원 초과
         }
 
         target.getMemberIds().add(memberId);

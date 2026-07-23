@@ -1,7 +1,9 @@
 package com.groupmeeting.view;
 
 import com.groupmeeting.model.Room;
+import com.groupmeeting.util.AvailabilityRepository;
 import com.groupmeeting.util.RoomRepository;
+import com.groupmeeting.util.TravelDateRepository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,10 +100,6 @@ public class JoinRoomDialog extends JDialog {
             showWarning("이미 참여 중인 방입니다.");
             return;
         }
-        if (existing.isFull()) {
-            showWarning("정원(" + Room.MAX_MEMBERS + "명)이 가득 찬 방입니다.");
-            return;
-        }
 
         Room result = roomRepository.joinRoom(code, memberId);
         if (result != null) {
@@ -109,6 +107,18 @@ public class JoinRoomDialog extends JDialog {
             JOptionPane.showMessageDialog(this,
                     "'" + result.getName() + "' 방에 참여했습니다!",
                     "참여 완료", JOptionPane.INFORMATION_MESSAGE);
+
+            // 방 생성 직후와 마찬가지로, 카테고리에 맞춰 곧바로 날짜(및 장소) 입력 화면을 띄워줍니다.
+            if (Room.CATEGORY_PROMISE.equals(result.getCategory())) {
+                ScheduleInputDialog scheduleDialog =
+                        new ScheduleInputDialog(this, new AvailabilityRepository(), result, memberId);
+                scheduleDialog.setVisible(true);
+            } else if (Room.CATEGORY_TRAVEL.equals(result.getCategory())) {
+                TravelDateInputDialog travelDialog =
+                        new TravelDateInputDialog(this, new TravelDateRepository(), result, memberId);
+                travelDialog.setVisible(true);
+            }
+
             dispose();
         } else {
             showWarning("방 참여 중 오류가 발생했습니다. 다시 시도해주세요.");
