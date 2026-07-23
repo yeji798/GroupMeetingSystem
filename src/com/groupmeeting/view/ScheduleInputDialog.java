@@ -40,7 +40,7 @@ public class ScheduleInputDialog extends JDialog {
     }
 
     private void initDialog() {
-        setSize(495, 880);
+        setSize(432, 768);
         setLocationRelativeTo(getOwner());
         setResizable(false);
         getContentPane().setBackground(Theme.BACKGROUND);
