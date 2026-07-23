@@ -42,7 +42,7 @@ public class RoomDetailView extends JFrame {
 
     private void initFrame() {
         setTitle(room.getName());
-        setSize(495, 880);
+        setSize(432, 768);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         getContentPane().setBackground(Theme.BACKGROUND);

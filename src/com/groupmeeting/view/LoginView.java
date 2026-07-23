@@ -37,7 +37,7 @@ public class LoginView extends JFrame { // Swing에서 제공하는 창 클래�
     /** JFrame 자체의 기본 속성(제목, 크기, 닫기 동작 등)을 설정합니다. */
     private void initFrame() {
         setTitle("단체 모임 관리 시스템 - 로그인");      // 창 제목 설정 
-        setSize(495, 880);                             // 창 사이즈 설정  
+        setSize(432, 768);                             // 창 사이즈 설정  
         setLocationRelativeTo(null);                   // 화면 중앙에 표시
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창의 X 버튼 클릭시 창 닫음
         setResizable(false);                            // 창 크기 변경 불가!!
@@ -92,22 +92,31 @@ public class LoginView extends JFrame { // Swing에서 제공하는 창 클래�
         JButton loginButton = new JButton("로그인");
         Theme.styleButton(loginButton);
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
+        loginButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42)); 
+        // -> 버튼의 최대 크기를 가로는 제한 없이, 세로는 42픽셀로 설정한다.
         loginButton.addActionListener(e -> handleLogin());
+        // -> 로그인 버튼을 클릭하면 handleLogin() 메서드가 실행되도록 이벤트를 등록한다.
+    
 
         // ---------- 회원가입 링크 (목업 디자인: 버튼이 아닌 밑줄 텍스트 링크 형태) ----------
         JButton signupButton = new JButton("<html><u>회원가입</u></html>");
         signupButton.setFont(Theme.FONT_NORMAL);
         signupButton.setForeground(Theme.TEXT_DARK);
         signupButton.setContentAreaFilled(false);
+        // -> 버튼의 배경을 투명하게 설정한다.
         signupButton.setBorderPainted(false);
+        // -> 버튼의 테두리를 표시하지 않는다.
         signupButton.setFocusPainted(false);
+        // -> 버튼을 클릭했을 때 나타나는 포커스 표시(테두리)를 제거한다.
+
         signupButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         signupButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        signupButton.addActionListener(e -> handleOpenSignup());
+        signupButton.addActionListener(e -> handleOpenSignup()); ////// 이벤트 실행!!
 
-        // 엔터 키로도 로그인 되도록 처리 (사용성 개선)
+
+        // Enter 키로도 로그인 되도록 처리
         getRootPane().setDefaultButton(loginButton);
+
 
         // ---------- 컴포넌트 조립 ----------
         root.add(iconLabel);
@@ -129,40 +138,53 @@ public class LoginView extends JFrame { // Swing에서 제공하는 창 클래�
         setContentPane(root);
     }
 
-    /**
-     * 로그인 버튼 클릭 시 실행됩니다.
+
+    /** -----------------------------------------------------------
+     * [로그인 버튼]
+     * 
      * 입력값 검증 -> CSV 파일 기반 인증 -> 성공 시 메인 화면으로 전환합니다.
      */
     private void handleLogin() {
         String id = idField.getText().trim();
-        String password = new String(pwField.getPassword());
+        // -> 아이디 입력창의 값을 가져오고, 앞뒤 공백을 제거하여 id 변수에 저장한다.
+        String password = new String(pwField.getPassword()); // 비밀번호 문자열로 변경하여 저장 
 
-        if (id.isEmpty() || password.isEmpty()) {
+
+        // 아이디 또는 비밀번호가 비어 있는지 확인한다.
+        if (id.isEmpty() || password.isEmpty()) { 
             JOptionPane.showMessageDialog(this, "아이디와 비밀번호를 모두 입력해주세요.",
                     "입력 오류", JOptionPane.WARNING_MESSAGE);
-            return;
+            return; //로그인 처리를 중단하고 메서드를 종료한다.
         }
 
+        //입력한 아이디와 비밀번호가 저장된 회원 정보와 일치하는지 확인하고, 일치하면 회원 객체를 반환받는다.
         Member member = memberRepository.authenticate(id, password);
 
-        if (member == null) {
+        // 1. 일치하는 회원 정보가 없다면?
+        if (member == null) { 
             JOptionPane.showMessageDialog(this, "아이디 또는 비밀번호가 일치하지 않습니다.",
                     "로그인 실패", JOptionPane.ERROR_MESSAGE);
-            pwField.setText("");
-            return;
+            pwField.setText(""); //비밀번호 입력창 다시 비우기!!
+            return; //로그인 메서드 종료
         }
 
-        // 로그인 성공 -> 메인 화면(MainView)으로 전환
+        // 2. 로그인 성공 -> 메인 화면(MainView)으로 전환
         JOptionPane.showMessageDialog(this,
                 member.getNickname() + "님, 환영합니다!",
                 "로그인 성공", JOptionPane.INFORMATION_MESSAGE);
 
-        MainView mainView = new MainView(member);
-        mainView.setVisible(true);
+        MainView mainView = new MainView(member); //메인화면에 회원정보를 전달!
+        mainView.setVisible(true); //메인화면 표시
         this.dispose(); // 로그인 창은 닫음
     }
 
-    /** 회원가입 버튼 클릭 시 회원가입 다이얼로그를 모달로 띄웁니다. */
+
+
+
+    /** ---------------------------------------------------
+     * [회원가입 버튼]
+     *
+     * */
     private void handleOpenSignup() {
         SignupDialog signupDialog = new SignupDialog(this, memberRepository);
         signupDialog.setVisible(true);
