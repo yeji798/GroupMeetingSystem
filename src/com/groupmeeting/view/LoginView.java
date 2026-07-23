@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * 프로그램 실행 시 가장 먼저 보여지는 메인(로그인) 화면입니다.
+ * 프로그램 실행 시 가장 먼저 보여지는 "로그인 화면" 입니다.
  *
  * 구성 요소:
  *  - 중앙 상단: "단체 모임 관리 시스템" 타이틀
@@ -15,35 +15,41 @@ import java.awt.*;
  *  - "로그인" 버튼
  *  - "회원가입" 버튼 (하단, 회원가입 다이얼로그 오픈)
  */
-public class LoginView extends JFrame {
 
-    // 회원 정보 CSV 파일을 다루는 저장소 객체
+
+public class LoginView extends JFrame { // Swing에서 제공하는 창 클래스
+
+    // 회원 정보 CSV 파일을 다루는 저장소 객체 만듦 (util.MemberRepository.java)
     private final MemberRepository memberRepository = new MemberRepository();
 
+
     // 아이디/비밀번호 입력 필드 (버튼 클릭 이벤트에서 값을 읽어야 하므로 필드로 선언)
-    private JTextField idField;
-    private JPasswordField pwField;
+    private JTextField idField;         //아이디 
+    private JPasswordField pwField;     //비밀번호
+
 
     public LoginView() {
         initFrame();
         initComponents();
     }
 
+
     /** JFrame 자체의 기본 속성(제목, 크기, 닫기 동작 등)을 설정합니다. */
     private void initFrame() {
-        setTitle("단체 모임 관리 시스템 - 로그인");
-        setSize(360, 640);
-        setLocationRelativeTo(null); // 화면 중앙에 표시
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        getContentPane().setBackground(Theme.BACKGROUND);
+        setTitle("단체 모임 관리 시스템 - 로그인");      // 창 제목 설정 
+        setSize(360, 640);                             // 창 사이즈 설정  
+        setLocationRelativeTo(null);                   // 화면 중앙에 표시
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창의 X 버튼 클릭시 창 닫음
+        setResizable(false);                            // 창 크기 변경 불가!!
+        getContentPane().setBackground(Theme.BACKGROUND); //창 내부의 배경 색을 바꿈. 
     }
+
 
     /** 화면 내부의 컴포넌트(라벨, 입력창, 버튼 등)를 배치합니다. */
     private void initComponents() {
-        JPanel root = new JPanel();
+        JPanel root = new JPanel();                 // 화면의 기본 패널 생성
         root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
-        root.setBackground(Theme.BACKGROUND);
+        root.setBackground(Theme.BACKGROUND);       // 
         root.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
 
         // ---------- 아이콘 + 타이틀 (목업 디자인: 사람 아이콘 + 2줄 타이틀) ----------
