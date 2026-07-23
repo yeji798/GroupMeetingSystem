@@ -48,40 +48,41 @@ public class LoginView extends JFrame { // Swing에서 제공하는 창 클래�
     /** 화면 내부의 컴포넌트(라벨, 입력창, 버튼 등)를 배치합니다. */
     private void initComponents() {
         JPanel root = new JPanel();                 // 화면의 기본 패널 생성
-        root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
-        root.setBackground(Theme.BACKGROUND);       // 
-        root.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS)); // 컴포넌트 (*GUI를 구성하는 각각의 요소)를 세로 방향으로 배치.
+        root.setBackground(Theme.BACKGROUND);       // 배경 색을 Theme.BACKGROUND로 설정
+        root.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40)); // 상하좌우에 40픽셀의 여백을 설정한다.
+
 
         // ---------- 아이콘 + 타이틀 (목업 디자인: 사람 아이콘 + 2줄 타이틀) ----------
-        JLabel iconLabel = new JLabel("\uD83D\uDC65", SwingConstants.CENTER); // 👥
-        iconLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 44));
-        iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        ImageIcon icon = new ImageIcon(getClass().getResource("/image/logo.png")); //이미지 아이콘 생성
+        JLabel iconLabel = new JLabel(icon); // 레이블로 생성 
+        iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙에 배치
 
-        JLabel titleLabel = new JLabel("<html><div style='text-align:center;'>단체 모임<br>관리 시스템</div></html>",
-                SwingConstants.CENTER);
-        titleLabel.setFont(Theme.FONT_TITLE);
-        titleLabel.setForeground(Theme.PRIMARY_GREEN_DARK);
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // JLabel titleLabel = new JLabel("<html><div style='text-align:center;'>단체 모임<br>관리 시스템</div></html>",
+        //         SwingConstants.CENTER);
+        // titleLabel.setFont(Theme.FONT_TITLE);
+        // titleLabel.setForeground(Theme.PRIMARY_GREEN_DARK);
+        // titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // ---------- 아이디 입력 ----------
         JLabel idLabel = new JLabel("아이디");
         idLabel.setFont(Theme.FONT_NORMAL);
-        idLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        idLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         idField = new JTextField();
         Theme.styleTextField(idField);
-        idField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
-        idField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        idField.setMaximumSize(new Dimension(200, 34)); //  세로는 34픽셀로 설정
+        idField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // ---------- 비밀번호 입력 ----------
         JLabel pwLabel = new JLabel("비밀번호");
         pwLabel.setFont(Theme.FONT_NORMAL);
-        pwLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pwLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         pwField = new JPasswordField();
         Theme.styleTextField(pwField);
-        pwField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
-        pwField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        pwField.setMaximumSize(new Dimension(200, 34));
+        pwField.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // ---------- 로그인 버튼 ----------
         JButton loginButton = new JButton("로그인");
@@ -107,7 +108,7 @@ public class LoginView extends JFrame { // Swing에서 제공하는 창 클래�
         // ---------- 컴포넌트 조립 ----------
         root.add(iconLabel);
         root.add(Box.createVerticalStrut(10));
-        root.add(titleLabel);
+        root.add(iconLabel);
         root.add(Box.createVerticalStrut(36));
         root.add(idLabel);
         root.add(Box.createVerticalStrut(6));
