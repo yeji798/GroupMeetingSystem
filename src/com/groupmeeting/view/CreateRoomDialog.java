@@ -36,7 +36,7 @@ public class CreateRoomDialog extends JDialog {
     }
 
     private void initDialog() {
-        setSize(360, 640);
+        setSize(495, 880);
         setLocationRelativeTo(getOwner());
         setResizable(false);
         getContentPane().setBackground(Theme.BACKGROUND);

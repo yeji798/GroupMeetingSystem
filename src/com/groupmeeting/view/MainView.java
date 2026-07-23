@@ -39,7 +39,7 @@ public class MainView extends JFrame {
     /** JFrame 기본 속성 설정 */
     private void initFrame() {
         setTitle("단체 모임 관리 시스템");
-        setSize(360, 640);
+        setSize(495, 880);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(Theme.BACKGROUND);

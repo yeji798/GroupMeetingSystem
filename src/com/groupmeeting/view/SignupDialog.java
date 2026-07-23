@@ -42,7 +42,7 @@ public class SignupDialog extends JDialog {
 
     /** 다이얼로그 자체의 크기, 위치 등을 설정합니다. */
     private void initDialog() {
-        setSize(360, 640);
+        setSize(495, 880);
         setLocationRelativeTo(getOwner());
         setResizable(false);
         getContentPane().setBackground(Theme.BACKGROUND);

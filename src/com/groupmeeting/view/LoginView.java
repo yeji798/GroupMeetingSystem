@@ -37,7 +37,7 @@ public class LoginView extends JFrame { // Swing에서 제공하는 창 클래�
     /** JFrame 자체의 기본 속성(제목, 크기, 닫기 동작 등)을 설정합니다. */
     private void initFrame() {
         setTitle("단체 모임 관리 시스템 - 로그인");      // 창 제목 설정 
-        setSize(360, 640);                             // 창 사이즈 설정  
+        setSize(495, 880);                             // 창 사이즈 설정  
         setLocationRelativeTo(null);                   // 화면 중앙에 표시
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창의 X 버튼 클릭시 창 닫음
         setResizable(false);                            // 창 크기 변경 불가!!
@@ -54,11 +54,15 @@ public class LoginView extends JFrame { // Swing에서 제공하는 창 클래�
 
 
         // ---------- 아이콘 + 타이틀 (목업 디자인: 사람 아이콘 + 2줄 타이틀) ----------
-        ImageIcon icon = new ImageIcon(getClass().getResource("/image/logo.png")); //이미지 아이콘 생성
-        JLabel iconLabel = new JLabel(icon); // 레이블로 생성 
-        iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // 중앙에 배치
+        ImageIcon icon = new ImageIcon(getClass().getResource("/image/logo.png"));
 
-        // JLabel titleLabel = new JLabel("<html><div style='text-align:center;'>단체 모임<br>관리 시스템</div></html>",
+        Image img = icon.getImage();
+        Image resizeImg = img.getScaledInstance(280, 280, Image.SCALE_SMOOTH);
+
+        JLabel iconLabel = new JLabel(new ImageIcon(resizeImg));
+        iconLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // JLabel titleLabel = new JLabel("<html><div style='text-align:center;'>단체 모임<br>관리 서비스<br>모이락! 에 오신 걸 환영합니다. </div></html>",
         //         SwingConstants.CENTER);
         // titleLabel.setFont(Theme.FONT_TITLE);
         // titleLabel.setForeground(Theme.PRIMARY_GREEN_DARK);
@@ -107,19 +111,19 @@ public class LoginView extends JFrame { // Swing에서 제공하는 창 클래�
 
         // ---------- 컴포넌트 조립 ----------
         root.add(iconLabel);
-        root.add(Box.createVerticalStrut(10));
+        root.add(Box.createVerticalStrut(10)); //새로방향으로 여백 설정
         root.add(iconLabel);
-        root.add(Box.createVerticalStrut(36));
+        root.add(Box.createVerticalStrut(60));
         root.add(idLabel);
         root.add(Box.createVerticalStrut(6));
         root.add(idField);
-        root.add(Box.createVerticalStrut(16));
+        root.add(Box.createVerticalStrut(18));
         root.add(pwLabel);
         root.add(Box.createVerticalStrut(6));
         root.add(pwField);
-        root.add(Box.createVerticalStrut(28));
+        root.add(Box.createVerticalStrut(37));
         root.add(loginButton);
-        root.add(Box.createVerticalStrut(10));
+        root.add(Box.createVerticalStrut(20));
         root.add(signupButton);
 
         setContentPane(root);
