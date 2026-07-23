@@ -80,7 +80,7 @@ public class MainView extends JFrame {
 
         // 벨 아이콘: 목업에는 알림 전용 아이콘이지만, 마이페이지 진입 동선을 함께 제공하기 위해
         // 클릭 시 "알림" / "마이페이지"를 선택할 수 있는 팝업 메뉴를 띄웁니다.
-        JButton bellButton = new JButton("\uD83D\uDD14"); // 🔔
+        JButton bellButton = new JButton("MY"); // 🔔
         bellButton.setFont(new Font("맑은 고딕", Font.PLAIN, 18));
         bellButton.setBorderPainted(false);
         bellButton.setFocusPainted(false);
@@ -90,11 +90,11 @@ public class MainView extends JFrame {
         JPopupMenu bellMenu = new JPopupMenu();
         JMenuItem profileItem = new JMenuItem("마이페이지 - " + loginMember.getNickname());
         profileItem.addActionListener(e -> handleOpenProfile());
-        JMenuItem notificationItem = new JMenuItem("알림 (준비 중)");
-        notificationItem.addActionListener(e -> JOptionPane.showMessageDialog(this,
-                "알림 기능은 추후 지원될 예정입니다.", "알림", JOptionPane.INFORMATION_MESSAGE));
+        //JMenuItem notificationItem = new JMenuItem("알림 (준비 중)");
+        //notificationItem.addActionListener(e -> JOptionPane.showMessageDialog(this,
+                //"알림 기능은 추후 지원될 예정입니다.", "알림", JOptionPane.INFORMATION_MESSAGE));
         bellMenu.add(profileItem);
-        bellMenu.add(notificationItem);
+        //bellMenu.add(notificationItem);
 
         bellButton.addActionListener(e -> bellMenu.show(bellButton, 0, bellButton.getHeight()));
 
