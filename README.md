@@ -72,3 +72,6 @@ java -cp bin com.groupmeeting.Main
 
 코드 구조, 클래스·메서드 설명과 발표 예상 질문은
 [CODE_PRESENTATION_GUIDE.md](CODE_PRESENTATION_GUIDE.md)에서 확인할 수 있습니다.
+
+View 35개 파일의 화면 흐름과 발표 질문은
+[VIEW_PRESENTATION_GUIDE.md](VIEW_PRESENTATION_GUIDE.md)에서 확인할 수 있습니다.

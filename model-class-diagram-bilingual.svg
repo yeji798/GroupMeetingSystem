@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <style>
+      .bg { fill: #f6faf7; }
+      .title { font: 700 34px "Malgun Gothic", "Arial", sans-serif; fill: #173b2a; }
+      .subtitle { font: 400 18px "Malgun Gothic", "Arial", sans-serif; fill: #587064; }
+      .box { fill: #ffffff; stroke: #4caf70; stroke-width: 2; rx: 14; }
+      .head { fill: #277f50; }
+      .class-name { font: 700 22px "Malgun Gothic", "Arial", sans-serif; fill: #ffffff; }
+      .class-ko { font: 400 14px "Malgun Gothic", "Arial", sans-serif; fill: #dff5e8; }
+      .section { font: 700 14px "Malgun Gothic", "Arial", sans-serif; fill: #277f50; }
+      .text { font: 400 14px "Consolas", "Malgun Gothic", monospace; fill: #263c31; }
+      .small { font: 400 12px "Malgun Gothic", "Arial", sans-serif; fill: #63776c; }
+      .line { stroke: #a7b9af; stroke-width: 1; }
+      .relation { fill: none; stroke: #6e8f7c; stroke-width: 2; marker-end: url(#arrow); }
+      .relation-dash { fill: none; stroke: #8aa397; stroke-width: 2; stroke-dasharray: 7 6; marker-end: url(#arrow); }
+      .rel-label { font: 600 12px "Consolas", "Malgun Gothic", monospace; fill: #42614f; }
+      .legend { fill: #eaf5ee; stroke: #b7d9c4; stroke-width: 1; rx: 10; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6e8f7c"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1920" height="1080"/>
+  <text class="title" x="80" y="58">Model Class Diagram · 모델 클래스 다이어그램</text>
+  <text class="subtitle" x="80" y="88">Group Meeting System · 그룹 모임 관리 시스템</text>
+
+  <g transform="translate(1435,34)">
+    <rect class="legend" width="405" height="62"/>
+    <text class="small" x="18" y="25">+ public　− private　$ static</text>
+    <text class="small" x="18" y="47">Solid: room relation　Dashed: member/round relation</text>
+  </g>
+
+  <!-- Relations are drawn first so boxes remain readable. -->
+  <path class="relation-dash" d="M 320 410 L 320 590"/>
+  <text class="rel-label" x="330" y="505">memberId</text>
+  <path class="relation-dash" d="M 420 360 C 690 440, 820 480, 1050 590"/>
+  <text class="rel-label" x="720" y="477">payerId</text>
+  <path class="relation-dash" d="M 420 330 C 850 390, 1230 470, 1530 590"/>
+  <text class="rel-label" x="1220" y="470">from / to</text>
+
+  <path class="relation" d="M 800 410 L 800 590"/>
+  <text class="rel-label" x="810" y="505">roomCode</text>
+  <path class="relation" d="M 700 410 C 560 475, 480 520, 380 590"/>
+  <text class="rel-label" x="520" y="515">roomCode</text>
+  <path class="relation" d="M 900 410 C 1060 470, 1130 520, 1160 590"/>
+  <text class="rel-label" x="1045" y="510">roomCode</text>
+  <path class="relation" d="M 900 380 C 1230 430, 1460 500, 1620 590"/>
+  <text class="rel-label" x="1390" y="487">roomCode</text>
+  <path class="relation" d="M 900 220 L 1010 220"/>
+  <text class="rel-label" x="930" y="208">0..*</text>
+  <path class="relation" d="M 900 310 C 1250 330, 1390 285, 1480 245"/>
+  <text class="rel-label" x="1270" y="316">0..1</text>
+  <path class="relation-dash" d="M 1260 410 L 1260 590"/>
+  <text class="rel-label" x="1270" y="505">roundId</text>
+
+  <!-- Member -->
+  <g transform="translate(80,125)">
+    <rect class="box" width="420" height="285"/>
+    <path class="head" d="M14 0 H406 Q420 0 420 14 V62 H0 V14 Q0 0 14 0"/>
+    <text class="class-name" x="20" y="28">Member</text>
+    <text class="class-ko" x="20" y="50">회원</text>
+    <text class="section" x="18" y="88">FIELDS · 필드</text>
+    <text class="text" x="18" y="114">− name: String          이름</text>
+    <text class="text" x="18" y="137">− nickname: String      닉네임</text>
+    <text class="text" x="18" y="160">− id: String            로그인 아이디</text>
+    <text class="text" x="18" y="183">− password: String      비밀번호</text>
+    <text class="text" x="18" y="206">− email: String         이메일</text>
+    <line class="line" x1="0" y1="220" x2="420" y2="220"/>
+    <text class="section" x="18" y="244">METHODS · 메서드</text>
+    <text class="text" x="18" y="267">+ getter(name, nickname, id, password, email)</text>
+    <text class="text" x="18" y="288">+ setter(name, nickname, password, email)</text>
+  </g>
+
+  <!-- Room -->
+  <g transform="translate(540,125)">
+    <rect class="box" width="420" height="285"/>
+    <path class="head" d="M14 0 H406 Q420 0 420 14 V62 H0 V14 Q0 0 14 0"/>
+    <text class="class-name" x="20" y="28">Room</text>
+    <text class="class-ko" x="20" y="50">모임방</text>
+    <text class="section" x="18" y="88">FIELDS · 필드</text>
+    <text class="text" x="18" y="114">− code: String          방 코드</text>
+    <text class="text" x="18" y="137">− name: String          방 이름</text>
+    <text class="text" x="18" y="160">− category: String      방 종류</text>
+    <text class="text" x="18" y="183">− ownerId: String       방장 ID</text>
+    <text class="text" x="18" y="206">− memberIds: List       참여 회원 ID 목록</text>
+    <line class="line" x1="0" y1="220" x2="420" y2="220"/>
+    <text class="section" x="18" y="244">METHODS · 메서드</text>
+    <text class="text" x="18" y="267">+ getter(code, name, category, ownerId, memberIds)</text>
+    <text class="text" x="18" y="288">+ getMemberCount() / hasMember(memberId)</text>
+  </g>
+
+  <!-- MeetingRound -->
+  <g transform="translate(1000,125)">
+    <rect class="box" width="420" height="285"/>
+    <path class="head" d="M14 0 H406 Q420 0 420 14 V62 H0 V14 Q0 0 14 0"/>
+    <text class="class-name" x="20" y="28">MeetingRound</text>
+    <text class="class-ko" x="20" y="50">모임 회차</text>
+    <text class="section" x="18" y="88">FIELDS · 필드</text>
+    <text class="text" x="18" y="118">− roomCode: String      방 코드</text>
+    <text class="text" x="18" y="148">− id: String            회차 UUID</text>
+    <text class="text" x="18" y="178">− name: String          회차 이름</text>
+    <line class="line" x1="0" y1="208" x2="420" y2="208"/>
+    <text class="section" x="18" y="236">METHODS · 메서드</text>
+    <text class="text" x="18" y="266">+ getter(roomCode, id, name)</text>
+  </g>
+
+  <!-- RoomFinalDecision -->
+  <g transform="translate(1460,125)">
+    <rect class="box" width="380" height="285"/>
+    <path class="head" d="M14 0 H366 Q380 0 380 14 V62 H0 V14 Q0 0 14 0"/>
+    <text class="class-name" x="20" y="28">RoomFinalDecision</text>
+    <text class="class-ko" x="20" y="50">최종 결정</text>
+    <text class="section" x="18" y="88">FIELDS · 필드</text>
+    <text class="text" x="18" y="113">− roomCode: String</text>
+    <text class="text" x="18" y="136">− finalDate: String</text>
+    <text class="text" x="18" y="159">− finalStartTime: String</text>
+    <text class="text" x="18" y="182">− finalEndTime: String</text>
+    <text class="text" x="18" y="205">− finalPlace: String</text>
+    <line class="line" x1="0" y1="220" x2="380" y2="220"/>
+    <text class="text" x="18" y="247">+ getter(date, startTime, endTime, place)</text>
+    <text class="text" x="18" y="270">+ setter(date, startTime, endTime, place)</text>
+    <text class="text" x="18" y="292">+ empty(roomCode): RoomFinalDecision</text>
+  </g>
+
+  <!-- AvailabilityEntry -->
+  <g transform="translate(80,590)">
+    <rect class="box" width="420" height="330"/>
+    <path class="head" d="M14 0 H406 Q420 0 420 14 V62 H0 V14 Q0 0 14 0"/>
+    <text class="class-name" x="20" y="28">AvailabilityEntry</text>
+    <text class="class-ko" x="20" y="50">가능 일정</text>
+    <text class="section" x="18" y="88">FIELDS · 필드</text>
+    <text class="text" x="18" y="116">− roomCode: String      방 코드</text>
+    <text class="text" x="18" y="142">− memberId: String      회원 ID</text>
+    <text class="text" x="18" y="168">− date: String          날짜</text>
+    <text class="text" x="18" y="194">− startTime: String     시작 시간</text>
+    <text class="text" x="18" y="220">− endTime: String       종료 시간</text>
+    <line class="line" x1="0" y1="240" x2="420" y2="240"/>
+    <text class="section" x="18" y="268">METHODS · 메서드</text>
+    <text class="text" x="18" y="296">+ getter(roomCode, memberId, date,</text>
+    <text class="text" x="34" y="318">         startTime, endTime)</text>
+  </g>
+
+  <!-- TravelDateEntry -->
+  <g transform="translate(540,590)">
+    <rect class="box" width="420" height="330"/>
+    <path class="head" d="M14 0 H406 Q420 0 420 14 V62 H0 V14 Q0 0 14 0"/>
+    <text class="class-name" x="20" y="28">TravelDateEntry</text>
+    <text class="class-ko" x="20" y="50">여행 가능 기간</text>
+    <text class="section" x="18" y="88">FIELDS · 필드</text>
+    <text class="text" x="18" y="120">− roomCode: String      방 코드</text>
+    <text class="text" x="18" y="152">− memberId: String      회원 ID</text>
+    <text class="text" x="18" y="184">− startDate: String     시작 날짜</text>
+    <text class="text" x="18" y="216">− endDate: String       종료 날짜</text>
+    <line class="line" x1="0" y1="240" x2="420" y2="240"/>
+    <text class="section" x="18" y="268">METHODS · 메서드</text>
+    <text class="text" x="18" y="298">+ getter(roomCode, memberId, startDate, endDate)</text>
+  </g>
+
+  <!-- Expense -->
+  <g transform="translate(1000,590)">
+    <rect class="box" width="420" height="390"/>
+    <path class="head" d="M14 0 H406 Q420 0 420 14 V62 H0 V14 Q0 0 14 0"/>
+    <text class="class-name" x="20" y="28">Expense</text>
+    <text class="class-ko" x="20" y="50">지출</text>
+    <text class="section" x="18" y="88">FIELDS · 필드</text>
+    <text class="text" x="18" y="113">− id: String            지출 UUID</text>
+    <text class="text" x="18" y="137">− roomCode: String      방 코드</text>
+    <text class="text" x="18" y="161">− payerId: String       결제자 ID</text>
+    <text class="text" x="18" y="185">− amount: long          결제 금액</text>
+    <text class="text" x="18" y="209">− reason: String        지출 사유</text>
+    <text class="text" x="18" y="233">− note: String          메모</text>
+    <text class="text" x="18" y="257">− roundId: String       회차 ID</text>
+    <line class="line" x1="0" y1="276" x2="420" y2="276"/>
+    <text class="section" x="18" y="302">METHODS · 메서드</text>
+    <text class="text" x="18" y="328">+ getter(all fields · 전체 필드)</text>
+    <text class="text" x="18" y="352">+ setter(payerId, amount, reason, note, roundId)</text>
+    <text class="text" x="18" y="376">+ isRoundExpense(): boolean · 회차 지출 여부</text>
+  </g>
+
+  <!-- SettlementItem -->
+  <g transform="translate(1460,590)">
+    <rect class="box" width="380" height="330"/>
+    <path class="head" d="M14 0 H366 Q380 0 380 14 V62 H0 V14 Q0 0 14 0"/>
+    <text class="class-name" x="20" y="28">SettlementItem</text>
+    <text class="class-ko" x="20" y="50">정산 항목</text>
+    <text class="section" x="18" y="88">FIELDS · 필드</text>
+    <text class="text" x="18" y="116">− roomCode: String</text>
+    <text class="text" x="18" y="142">− fromMemberId: String  보내는 회원</text>
+    <text class="text" x="18" y="168">− toMemberId: String    받는 회원</text>
+    <text class="text" x="18" y="194">− amount: long          송금 금액</text>
+    <text class="text" x="18" y="220">− confirmed: boolean    완료 여부</text>
+    <line class="line" x1="0" y1="240" x2="380" y2="240"/>
+    <text class="section" x="18" y="268">METHODS · 메서드</text>
+    <text class="text" x="18" y="294">+ getter(all fields · 전체 필드)</text>
+    <text class="text" x="18" y="318">+ setConfirmed() / involves(memberId)</text>
+  </g>
+
+  <text class="small" x="80" y="1040">
+    Relationships are implemented with String IDs in CSV files, not direct object references.
+    · 관계는 객체 직접 참조가 아니라 CSV의 문자열 ID로 연결됩니다.
+  </text>
+</svg>

@@ -2,21 +2,12 @@
  * SettlementCalculator.java
  *
  * 지출 내역들을 정해진 인원수대로 "n빵"(똑같이 나누기)한 뒤, 실제로 누가 누구에게
- * 얼마를 보내야 하는지 계산하는 순수 계산 전용 클래스입니다. (파일 입출력은 하지 않습니다)
+ * 얼마를 보내야 하는지 계산하는 순수 계산 전용 클래스입니다.
  *
- * 이 방에는 두 가지 지출이 있을 수 있습니다.
+ * <지출 종류>
  *  - 일반 지출: 방 전체 참여자가 다같이 나눠서 부담하는 지출
  *  - 차수별 지출: "차수별 비용 입력"으로 등록한 지출로, 그 차수에 참여한 사람들끼리만 나눠서 부담
- * 이렇게 "나눠 부담하는 대상 인원이 다른 지출 묶음(Group)"이 여러 개 있을 수 있으므로,
- * calculateCombined()는 그룹을 여러 개 받아서 한 번에 계산합니다.
- *
- * 계산 순서:
- *  1) 그룹마다: 그 그룹의 지출 총합을 그 그룹에 해당하는 인원수로 나눠 "1인당 부담액"을 구하고,
- *     각자 "실제로 낸 금액 - 1인당 부담액"을 그 사람의 balance(잔액)에 더한다.
- *     (한 사람이 일반 지출과 차수별 지출 양쪽에 다 관련되어 있으면, balance가 두 그룹의 결과를
- *      합친 값이 된다 - 그래야 최종적으로 한 사람당 한 번의 송금만 필요하게 정리할 수 있다)
- *  2) 모든 그룹을 다 반영한 최종 balance를 가지고, balance가 양수인 사람들(받을 사람)과
- *     음수인 사람들(줄 사람)을 짝지어서 최대한 적은 횟수의 송금으로 정리한다. (빚 정리 알고리즘)
+ *      --> calculateCombined()는 그룹을 여러 개 받아서 한 번에 계산
  */
 
 package com.groupmeeting.service;
@@ -96,12 +87,14 @@ public class SettlementCalculator {
         // 3) 각 참여자가 실제로 낸 금액 합산
         Map<String, Long> paidByMember = new LinkedHashMap<>();
         for (String memberId : memberIds) {
-            paidByMember.put(memberId, 0L);
+            paidByMember.put(memberId, 0L); //모든 참여자의 금액을 0으로 초기화
+            // 한번도 결제하지 않은 회원이 MAP에 존재하지 않는 경우를 방지하기 위해 
         }
         for (Expense expense : expenses) {
             String payer = expense.getPayerId();
-            if (paidByMember.containsKey(payer)) {
+            if (paidByMember.containsKey(payer)) { //현재 정산 참여자인지 확인
                 paidByMember.put(payer, paidByMember.get(payer) + expense.getAmount());
+                // ㄴ> 기존 결제 금액에 현재 지출 금액 누적
             }
         }
 
@@ -123,6 +116,7 @@ public class SettlementCalculator {
         List<MemberBalance> creditors = new ArrayList<>(); // balance > 0 : 돈을 받아야 하는 사람들
         List<MemberBalance> debtors = new ArrayList<>();   // balance < 0 : 돈을 보내야 하는 사람들
 
+        //돈 보내 & 받는 목록 만듦
         for (Map.Entry<String, Long> entry : totalBalance.entrySet()) {
             long balance = entry.getValue();
             if (balance > 0) {
