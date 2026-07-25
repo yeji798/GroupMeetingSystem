@@ -1,4 +1,5 @@
 roomCode,fromMemberId,toMemberId,amount,confirmed
-1000,003,002,27500,false
-1000,004,002,27500,false
-1000,001,002,12500,false
+1000,003,002,22000,false
+1000,004,002,22000,false
+1000,005,002,22000,false
+1000,001,002,12000,false
